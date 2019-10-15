@@ -32,31 +32,25 @@ int main(){
     cout << "Please enter vertex numbers: ";
 
     cin >> V;
-    cin.ignore();
+    //cin.ignore();
     
     vector<int> adjMatrix[V];
 
     for (int i = 0; i < V; i++){
         // vertice i
-        cout << "Enter vertex: ";
-        cin >> u;
-        cin.ignore();
+        cout << "\nEnter vertex: ";
+        scanf("%d", &u);
         cout << "Your number: " << u << "\nEnterline: ";
+        cin.ignore(); 
         getline(cin, adjList);
-        cin.ignore();
-        puts("");
-        
+
+
+        istringstream is(adjList);
+        while(is >> v){
+            addEdge(adjMatrix, u, v);
+        }
     }
     
-    
-    V = 6;
-    addEdge(adjMatrix, 0, 1);
-    addEdge(adjMatrix, 0, 5);
-    addEdge(adjMatrix, 0, 4);
-    addEdge(adjMatrix, 1, 3);
-    addEdge(adjMatrix, 2, 3);
-    addEdge(adjMatrix, 2, 5);
-
     printGraph(adjMatrix, V);
 
     return 0;
