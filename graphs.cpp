@@ -1,66 +1,103 @@
 #include <bits/stdc++.h>
-using namespace std;
-#include <iostream>
-#include <string>
-#include <algorithm>
+    using namespace std;
 
-//añadir vertices a la lista de adjacencia del grafo
-void addEdge(vector<int> adjMatrix[], int u, int v, int V){
-    int flag = 0;
-    for (auto x : adjMatrix[v]) if (x == u) flag = 1;
-    
-    if (!flag){
-        adjMatrix[u].push_back(v);
-        cout << "Edge: " << u << " - " << v << "\n";
-    }
-    flag = 0;
-    for (auto x : adjMatrix[u]) if (x == v) flag = 1;
+struct Graph
+{
+    int V;
+    set<int> *adjList;
+};
 
-    if (!flag){
-        adjMatrix[u].push_back(v);
-        cout << "Edge: " << u << " - " << v << "\n";
-    }
-    puts("");
+// A utility function that creates a graph of
+// V vertices
+Graph *createGraph(int V)
+{
+    Graph *graph = new Graph;
+    graph->V = V+1;
+
+    // Create an array of sets representing
+    // adjacency lists. Size of the array will be V
+    graph->adjList = new set<int>[V+1];
+
+    return graph;
 }
 
-//print lista de adjacencia del grafo
-void printGraph(vector<int> adjMatrix[], int V){
-    for (int i = 0; i < V; i++){
-        cout << "Adjacency list of vertex " << i << ":\n Head" ;
-        for (auto x: adjMatrix[i]) cout << "->" << x;
-        puts("");
+// Adds an edge to an undirected graph
+void addEdge(Graph *graph, int src, int dest)
+{
+    // Add an edge from src to dest. A new
+    // element is inserted to the adjacent
+    // list of src.
+    graph->adjList[src].insert(dest);
+
+    // Since graph is undirected, add an edge
+    // from dest to src also
+    graph->adjList[dest].insert(src);
+}
+
+// A utility function to print the adjacency
+// list representation of graph
+void printGraph(Graph *graph)
+{
+    for (int i = 1; i < graph->V; ++i)
+    {
+        set<int> lst = graph->adjList[i];
+        cout << endl
+             << "Adjacency list of vertex "
+             << i << endl;
+
+        for (auto itr = lst.begin(); itr != lst.end(); ++itr)
+            cout << *itr << " ";
+        cout << endl;
     }
 }
 
-int main(){
-    //cantidad de vertices
-    int V = 0;
-    int u;
-    int v;
-    //line con lista de adjacencia
-    string adjList;
+// Searches for a given edge in the graph
+void searchEdge(Graph *graph, int src, int dest)
+{
+    auto itr = graph->adjList[src].find(dest);
+    if (itr == graph->adjList[src].end())
+        cout << endl
+             << "Edge from " << src
+             << " to " << dest << " not found."
+             << endl;
+    else
+        cout << endl
+             << "Edge from " << src
+             << " to " << dest << " found."
+             << endl;
+}
 
-    // creacion del grafo vacio
-    cout << "Please enter vertex numbers: ";
-    cin >> V;    
-    vector<int> adjMatrix[V];
+// Driver code
+int main()
+{
+    // Create the graph given in the above figure
+    int V = 4;
+    struct Graph *graph = createGraph(V);
+    addEdge(graph, 5, 3);
+    addEdge(graph, 5, 2);
+    addEdge(graph, 2, 5);
+    addEdge(graph, 2, 3);
+    addEdge(graph, 3, 5);
+    addEdge(graph, 3, 2);
+    /* addEdge(graph, 1, 2);
+    addEdge(graph, 1, 5);
+    addEdge(graph, 1, 6);
+    addEdge(graph, 2, 1);
+    addEdge(graph, 2, 4);
+    addEdge(graph, 3, 6);
+    addEdge(graph, 3, 4);
+    addEdge(graph, 4, 3);
+    addEdge(graph, 4, 2);
+    addEdge(graph, 5, 1);
+    addEdge(graph, 6, 1);
+    addEdge(graph, 6, 3);*/
+    // Print the adjacency list representation of
+    // the above graph
+    printGraph(graph);
 
-    for (int i = 0; i < V; i++){
-        // vertice i
-        cout << "\nEnter vertex: ";
-        scanf("%d", &u);
-        cout << "Your number: " << u << "\nEnterline: ";
-        cin.ignore(); 
-        getline(cin, adjList);
-
-
-        istringstream is(adjList);
-        while(is >> v){
-            addEdge(adjMatrix, u, v, V);
-        }
-    }
-    
-    printGraph(adjMatrix, V);
+    // Search the given edge in the graph
+    searchEdge(graph, 2, 1);
+    searchEdge(graph, 0, 3);
 
     return 0;
 }
