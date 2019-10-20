@@ -13,49 +13,77 @@ typedef map<int,  adjacencyList> Graph;
 
 vector<adjacencyList> setDFS(Graph G){
   
-  vector<int> dfs_num(G.size(), -1);
-  vector<int> dfs_parent(G.size(), -1);
+  vector<int> dfs_vis(G.size(), -1);
+  vector<int> dfs_parent(G.size(), 0);
   vector<int> dfs_low(G.size(), 0);
+  vector<int> dfs_disc(G.size(), 0);
   vector<int> puntos_articulacion(G.size(), 0);
 
   vector<adjacencyList> ret;
 
-  ret.push_back(dfs_num);               //[0]
+  ret.push_back(dfs_vis);               //[0]
   ret.push_back(dfs_parent);            //[1]
   ret.push_back(dfs_low);               //[2]
-  ret.push_back(puntos_articulacion);   //[3]
+  ret.push_back(dfs_disc);              //[3]
+  ret.push_back(puntos_articulacion);   //[4]
 
   return ret;
 
-}
+} 
+/*
+[0] lista de si esta visitado o no?
+[1] padre del nodo
+[2] indicates earliest visited vertex reachable from subtree rooted with v
+[3] cuando el nodo fue visitado
+[4] Stores parent vertices in DFS tree
+*/
 
-
-
-void dfs(Graph G, vector<adjacencyList> datos, int u, int contadorDfs)
+void dfs(Graph G, vector<adjacencyList> datos, int u)
 {
-  cout << "\ndfs\n";
-  datos[0][u] = datos[2][u] = contadorDfs++;
-  for (int j = 0; j < int(G[u].size()); j++)
+  static int time = 0;
+  int j;
+  cout << "entro dfs" << endl;
+
+  //marco como visitado
+  datos[0][u] = 1;
+  //igual disc con low
+  datos[3][u] = datos[2][u] = ++time;
+
+  /*
+  for (i = G.begin(); i != G.end(); ++i)
+  {
+    //cout  << i->first << endl;
+  }*/
+  for (j = 0; j < int (G[u].size()); j++)
   {
     int v = G[u][j];
     //cout << v << " " << datos[0][v];
-    if (datos[0][v] == -1)
+    if (datos[0][v] == -1) // no esta visitado
     {
+      cout << "no visitado: "<< v << endl;
       datos[1][v] = u;
-      dfs(G,datos,v,contadorDfs);
-      if (datos[2][v] >= datos[0][u])
-        datos[3][u] = 1;
-      cout << datos[2][v] << " " << datos[0][u];
-      if (datos[2][v] > datos[0][u])
-          cout << "Puente " << u << " " << v << '\n';
+      cout << "u: "<< u << endl;
+      cout << "v: "<< v << endl;
+      dfs(G,datos,v);
+
       datos[2][u] = min(datos[2][u], datos[2][v]);
+
+      cout << "comp" << endl;
+      cout << "low: " << datos[2][v] << endl;
+      cout << "disc: " << datos[3][u] << endl;
+      if (datos[2][v] > datos[3][u]) {
+        cout << "puente" << endl;
+        cout << u << " " << v << endl;
+      }
+
     }
-    else if (v != datos[3][u])
-        datos[2][u] = min(datos[2][u], datos[0][v]);
-    } cout << endl;
+    
+    else if (v != datos[1][u]){
+      cout << "visitado: " <<  u << endl;
+      datos[2][u] = min(datos[2][u], datos[3][v]);
+    }
+  } 
 }
-
-
 
 void doDFS(Graph G,int u)
 {
@@ -66,7 +94,7 @@ void doDFS(Graph G,int u)
       }
       cout << endl;
     }*/
-    dfs(G, datosDFS, u, 0);
+    dfs(G, datosDFS, u);
     /*for (auto x : datosDFS)
     {
       for (auto y : x)
@@ -162,6 +190,7 @@ int main(int argc, char **argv)
   createNode(G, 5);
   createNode(G, 6);
   
+  /*
   adj.push_back(2);
   adj.push_back(5);
   adj.push_back(6);
@@ -191,10 +220,33 @@ int main(int argc, char **argv)
   adj.push_back(3);
   G[6].swap(adj);
   adj.clear();
+  */
+  adj.push_back(2);
+  G[1].swap(adj);
+  adj.clear();
+  adj.push_back(3);
+  G[2].swap(adj);
+  adj.clear();
+  adj.push_back(4);
+  G[3].swap(adj);
+  adj.clear();
+  adj.push_back(5);
+  G[4].swap(adj);
+  adj.clear();
+  adj.push_back(6);
+  G[5].swap(adj);
+  adj.clear();
+  G[6].swap(adj);
+  adj.clear();
 
-  //printGraph(G);
+  printGraph(G);
   doDFS(G,1);
-  
+  /*
+  G es el dicc
+  key es un int, elemento es una lista
+  G[x]: lista de llave x
+  G[x][y]: elemento de la lista y de llave x
+  */
 
   return 0;
 }
