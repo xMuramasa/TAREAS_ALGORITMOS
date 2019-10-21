@@ -151,42 +151,42 @@ int main(int argc, char **argv)
   // ejemplo: 1 2 3 4 5 6
   string buffer2;
 
-  cout << "Ingrese cantidad de nodos del grafo:\t";
-  cin >> V;
-  cout << endl;
-
-  for (i = 0; i < V; i++)
+  // cout << "Ingrese cantidad de nodos del grafo:\t";
+  while (cin >> V)
   {
-    cout << "\nIngrese vertice: ";
-
-    scanf("%d", &u);
-    cout << "\nIngrese lista de adjacencia (forma: a b c d): ";
-    cin.ignore();
-
-    getline(cin, buffer2);
-
-    // parseo de lista de adjacencia
-    istringstream is(buffer2);
-    while (is >> v)
+    for (i = 0; i < V; i++)
     {
-      // insert nodo v en lista de adjacencia del nodo u
-      buffer.push_back(v);
-    }
-    // insert lista de adjacencia del nodo u en grafo
-    G[u].swap(buffer);
-    buffer.clear(); // para no usar muchas variables se limpia el buffer
-  }
-  printGraph(G);
+      // cout << "\nIngrese vertice: ";
 
-  hacerTarea(G, 1);
-  /*
+      scanf("%d", &u);
+      // cout << "\nIngrese lista de adjacencia (forma: a b c d): ";
+      cin.ignore();
+
+      getline(cin, buffer2);
+
+      // parseo de lista de adjacencia
+      istringstream is(buffer2);
+      while (is >> v)
+      {
+        // insert nodo v en lista de adjacencia del nodo u
+        buffer.push_back(v);
+      }
+      // insert lista de adjacencia del nodo u en grafo
+      G[u].swap(buffer);
+      buffer.clear(); // para no usar muchas variables se limpia el buffer
+    }
+    printGraph(G);
+
+    hacerTarea(G, 1);
+    /*
   G es el dicc
   key es un int, elemento es una lista
   G[x]: lista de llave x
   G[x][y]: elemento de la lista y de llave x
   */
+  }
 
-  return 0;
+    return 0;
 }
 //  g++ archivo.cpp -o output -Wall
 //  valgrind ./hashmaputput -Wall
