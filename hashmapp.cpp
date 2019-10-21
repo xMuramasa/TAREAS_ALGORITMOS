@@ -3,106 +3,102 @@
 #include <cassert>
 #include <iterator>
 #include <vector>
-#include <bits/stdc++.h> 
+#include <bits/stdc++.h>
+#include <string>
+#include <algorithm>
 using namespace std;
 
 // definicion de tipos
 typedef vector<int> adjacencyList;
-typedef map<int,  adjacencyList> Graph;
+typedef map<int, adjacencyList> Graph;
 
+/* vector<adjacencyList> setDFS(Graph G)
+* accion  : prepara los datos de un grafo para el dfs
+* prints  : nada
+* returns : vector con datos inicializados para el dfs
+*/
+vector<adjacencyList> setDFS(Graph G)
+{
 
-vector<adjacencyList> setDFS(Graph G){
-  
-  vector<int> dfs_vis(G.size(), -1);
-  vector<int> dfs_parent(G.size(), 0);
-  vector<int> dfs_low(G.size(), 0);
-  vector<int> dfs_disc(G.size(), 0);
-  vector<int> puntos_articulacion(G.size(), 0);
+  vector<int> dfs_vis(G.size() + 1, -1);
+  vector<int> dfs_parent(G.size() + 1, -1);
+  vector<int> dfs_low(G.size() + 1, 0);
+  vector<int> dfs_disc(G.size() + 1, -1);
 
   vector<adjacencyList> ret;
 
-  ret.push_back(dfs_vis);               //[0]
-  ret.push_back(dfs_parent);            //[1]
-  ret.push_back(dfs_low);               //[2]
-  ret.push_back(dfs_disc);              //[3]
-  ret.push_back(puntos_articulacion);   //[4]
+  ret.push_back(dfs_vis);    //[0]
+  ret.push_back(dfs_parent); //[1]
+  ret.push_back(dfs_low);    //[2]
+  ret.push_back(dfs_disc);   //[3]
+
+  /*
+  [0] lista de si esta visitado o no?
+  [1] padre del nodo
+  [2] indicates earliest visited vertex reachable from subtree rooted with v
+  [3] cuando el nodo fue visitado
+  */
 
   return ret;
+}
 
-} 
-/*
-[0] lista de si esta visitado o no?
-[1] padre del nodo
-[2] indicates earliest visited vertex reachable from subtree rooted with v
-[3] cuando el nodo fue visitado
-[4] Stores parent vertices in DFS tree
+/* void dfs
+* accion  : hace un dfs en el grafo G, con datos de dfs datos y partiendo 
+*           por el nodo u
+* prints  : si hay una arista que separe el grafo en 2 componentes conexas
+* returns : nada
 */
-
-void dfs(Graph G, vector<adjacencyList> datos, int u)
+void dfs(Graph G, vector<adjacencyList> &datos, int u, int &flag)
 {
+  // se declara el tiempo de descubrimiento del nodo
   static int time = 0;
   int j;
-  cout << "entro dfs" << endl;
-
   //marco como visitado
   datos[0][u] = 1;
   //igual disc con low
   datos[3][u] = datos[2][u] = ++time;
 
-  /*
-  for (i = G.begin(); i != G.end(); ++i)
-  {
-    //cout  << i->first << endl;
-  }*/
-  for (j = 0; j < int (G[u].size()); j++)
+  for (j = 0; j < int(G[u].size()); j++)
   {
     int v = G[u][j];
-    //cout << v << " " << datos[0][v];
     if (datos[0][v] == -1) // no esta visitado
     {
-      cout << "no visitado: "<< v << endl;
+
       datos[1][v] = u;
-      cout << "u: "<< u << endl;
-      cout << "v: "<< v << endl;
-      dfs(G,datos,v);
 
-      datos[2][u] = min(datos[2][u], datos[2][v]);
+      dfs(G, datos, v, flag);
 
-      cout << "comp" << endl;
-      cout << "low: " << datos[2][v] << endl;
-      cout << "disc: " << datos[3][u] << endl;
-      if (datos[2][v] > datos[3][u]) {
-        cout << "puente" << endl;
+      if (datos[2][v] > datos[3][u])
+      {
+        flag = 1;
         cout << u << " " << v << endl;
       }
 
+      datos[2][u] = min(datos[2][u], datos[2][v]);
     }
-    
-    else if (v != datos[1][u]){
-      cout << "visitado: " <<  u << endl;
+    else if (v != datos[1][u])
+    {
       datos[2][u] = min(datos[2][u], datos[3][v]);
     }
-  } 
+  }
 }
 
-void doDFS(Graph G,int u)
+/* void hacerTarea
+* accion  : hace un dfs por todos los nodos del grafo
+* prints  : si existe la arista que divide el grafo en 2 componentes conexas;
+*           si no hay un puente en el grafo
+* returns : nada 
+*/
+void hacerTarea(Graph G, int u)
 {
-    vector<adjacencyList> datosDFS = setDFS(G);
-    /*for(auto x: datosDFS){
-      for(auto y: x){
-        cout << y << " ";
-      }
-      cout << endl;
-    }*/
-    dfs(G, datosDFS, u);
-    /*for (auto x : datosDFS)
-    {
-      for (auto y : x)
-      {
-        cout << y << " ";
-      }
-      cout << endl;
-    }*/
+  // set de flag para ver si existe corte
+  int flag = 0;
+  // datos dfs
+  vector<adjacencyList> datosDFS = setDFS(G);
+  for (auto x : G)
+    dfs(G, datosDFS, x.first, flag); // se hace un dfs nodo por nodo
+  if (flag == 0)
+    cout << "No existe corte" << endl;
 }
 /*
 dfs_parent[u]: Nodo a través del cuál visitamos el nodo u durante la ejecución de nuestro DFS
@@ -111,136 +107,78 @@ dfs_low[u]: El menor valor de dfs_num que puede alcanzar u sin contar su antesce
 (es decir, sincontar el nodo desde el que se llegó a u). Al principio, el valor de dfs_low[u] será dfs_num[u].
 */
 
-
 // ########### Lmao #############
-
-/* void createNode
-* accion  : agrega un nodo a un grafo
-* prints  : nada
-* returns : nada 
-*/
-void createNode(Graph G, int nambaWan){
-  adjacencyList adjListGet;  
-  G.insert(pair<int, adjacencyList>(nambaWan, adjListGet));
-}
-
-
-/* void addEdge
-* accion  : agrega una arista a un grafo
-* prints  : nada
-* returns : nada 
-*/
-void addEdge(Graph G, int vertex1, int vertex2)
-{
-  Graph::iterator itr; // iterador del grafo
-  int flag = 0;           // flag para verficar si la arista existe
-  for (itr = G.begin(); itr != G.end(); ++itr){
-
-    flag = 0;
-    for (auto x : itr->second) if (x == vertex1) flag = 1;
-    if (!flag){
-        itr->second.push_back(vertex2);
-        cout << "Edge: " << vertex1 << " - " << vertex2 << "\n";
-    }
-
-    flag = 0;
-    for (auto x : itr->second) if (x == vertex2) flag = 1;
-    
-    if (!flag){
-        itr->second.push_back(vertex1);
-        cout << "Edge: " << vertex2 << " - " << vertex1 << "\n";
-    }
-  }
-
-}
-
 
 /* void printGraph
 * accion  : muestra un grafo por pantalla usando el struct Graph y un iterador
 * prints  : print el grafo en forma de lista de adyacencia
 * returns : nada
 */
-void printGraph(Graph G){
+void printGraph(Graph G)
+{
 
   Graph::iterator itr; // iterador del grafo
 
-  cout << "\nThe map G is : \n";
-  cout << "\tKEY\tELEMENT\n";
+  cout << "\nLa forma del grafo es: \n";
+  cout << "\tLLAVE:\tVALOR\n";
 
   for (itr = G.begin(); itr != G.end(); ++itr)
   {
-      cout << '\t' << itr->first << ": ";
-      for (auto x : itr->second)
-        cout << x << " -> ";
-      cout << '\n';
+    cout << '\t' << itr->first << ":\t";
+    for (auto x : itr->second)
+      cout << x << " -> ";
+    cout << '\n';
   }
 }
 
-
 int main(int argc, char **argv)
 {
-   //creacion grafo
-  adjacencyList adj;
-
+  //creacion grafo
   Graph G;
-  createNode(G, 1);
-  createNode(G, 2);
-  createNode(G, 3);
-  createNode(G, 4);
-  createNode(G, 5);
-  createNode(G, 6);
-  
-  /*
-  adj.push_back(2);
-  adj.push_back(5);
-  adj.push_back(6);
-  G[1].swap(adj);
-  adj.clear();
-  
-  adj.push_back(1);
-  adj.push_back(4);
-  G[2].swap(adj);
-  adj.clear();
+  // creacion lista de adjacencia
+  adjacencyList buffer;
+  //contador
+  int i = 0;
+  //cantidad de vertices
+  int V = 0;
+  // vertice del grafo
+  int u = 0;
+  //vertice de la lista de adjacencia
+  int v = 0;
 
-  adj.push_back(6);
-  adj.push_back(4);
-  G[3].swap(adj);
-  adj.clear();
+  // buffer de una lista de adjacencia para I/O;
+  // es de la forma: nodo1 nodo2 nodo2 ... nodo_n;
+  // ejemplo: 1 2 3 4 5 6
+  string buffer2;
 
-  adj.push_back(3);
-  adj.push_back(2);
-  G[4].swap(adj);
-  adj.clear();
+  cout << "Ingrese cantidad de nodos del grafo:\t";
+  cin >> V;
+  cout << endl;
 
-  adj.push_back(1);
-  G[5].swap(adj);
-  adj.clear();
+  for (i = 0; i < V; i++)
+  {
+    cout << "\nIngrese vertice: ";
 
-  adj.push_back(1);
-  adj.push_back(3);
-  G[6].swap(adj);
-  adj.clear();
-  */
-  adj.push_back(2);
-  G[1].swap(adj);
-  adj.clear();
-  adj.push_back(3);
-  G[2].swap(adj);
-  adj.clear();
-  adj.push_back(4);
-  G[3].swap(adj);
-  adj.clear();
-  adj.push_back(5);
-  G[4].swap(adj);
-  adj.clear();
-  adj.push_back(6);
-  G[5].swap(adj);
-  adj.clear();
-  G[6].swap(adj);
-  adj.clear();
+    scanf("%d", &u);
+    cout << "\nIngrese lista de adjacencia (forma: a b c d): ";
+    cin.ignore();
 
+    getline(cin, buffer2);
+
+    // parseo de lista de adjacencia
+    istringstream is(buffer2);
+    while (is >> v)
+    {
+      // insert nodo v en lista de adjacencia del nodo u
+      buffer.push_back(v);
+    }
+    // insert lista de adjacencia del nodo u en grafo
+    G[u].swap(buffer);
+    buffer.clear(); // para no usar muchas variables se limpia el buffer
+  }
   printGraph(G);
-  doDFS(G,1);
+
+  hacerTarea(G, 1);
   /*
   G es el dicc
   key es un int, elemento es una lista
@@ -250,7 +188,7 @@ int main(int argc, char **argv)
 
   return 0;
 }
-//unordered_map
-// g++ archivo.cpp -o output -Wall
-//   valgrind ./hashmaputput -Wall
-//   valgrind ./hashma
+//  g++ archivo.cpp -o output -Wall
+//  valgrind ./hashmaputput -Wall
+//  valgrind ./hashmap
+//  g++ hashmapp.cpp -o out && valgrind ./out < test.txt
