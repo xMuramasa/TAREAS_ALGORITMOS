@@ -175,9 +175,10 @@ int main(int argc, char **argv)
       G[u].swap(buffer);
       buffer.clear(); // para no usar muchas variables se limpia el buffer
     }
-    printGraph(G);
+    //printGraph(G);
 
     hacerTarea(G, 1);
+    puts("");
     /*
   G es el dicc
   key es un int, elemento es una lista
