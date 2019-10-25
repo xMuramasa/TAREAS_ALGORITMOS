@@ -19,7 +19,7 @@ link overleaf: https://www.overleaf.com/9457388324pwnzndwzwnjd
 	
 	- Nombre: ROL
 	- Zhuo Chang 201773617-8 
-    - Rodrigo Orellana
+    - Rodrigo Orellana 201773522-8
 	- Martín Salinas Scussolin 201773557-0
 
 			
@@ -29,12 +29,10 @@ link overleaf: https://www.overleaf.com/9457388324pwnzndwzwnjd
 # si se desea utilizar un archivo de pruebas porfavor ver la línea ***
 # Instrucciones de uso:
 	
-	** El programa deberia funcionar correctamente, se debe compilar usando el comando make en la carpeta donde se
-        encuentre el archivo main.cpp.
-    ** Para correr el programa, se debe utilizar el comando make run e ingresar los inputs correspondientes sin fallar ninguno
-       el formato de entrada es un entero con la cantidad de nodos del grafo, en la línea siguiente un entero que señale el 
-       número del nodo del cual se desee agregar la lista de adyacencia, y finalmente su lista, según lo señalado en el
-       formato de entrada en las instrucciones de la tarea.
-    *** Si se desea usar un archivo de pruebas, por ejemplo test.txt, se debe correr utilizando el comando siguiente
-        make run < test.txt
-    ** Para hacer un clean de la carpeta obj/  se debe usar el comando make clean
+	**  Se debe compilar usando el comando make en la carpeta donde se
+        encuentre el archivo:  main.cpp.
+
+    **  Para correr el programa, se debe utilizar el comando:   make run testFile/file.txt
+        donde file es el nombre del archivo. 
+
+    **  Para hacer un clean de la carpeta obj/  se debe usar el comando make clean
