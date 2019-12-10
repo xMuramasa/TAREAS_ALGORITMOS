@@ -19,18 +19,6 @@ string myAnd(string n1, string n2){
 	else return buffer0;
 }
 
-char myOr(char n1, char n2){
-	char buffer0 = '0';
-	char buffer1 = '1';
-	if (n1 == buffer0 && n1 == n2)
-	{
-		return buffer0;
-	}
-
-	else
-		return buffer1;
-}
-
 string twoComp(string number){
 	int flag = 0;
 	int i = 0;
@@ -106,6 +94,8 @@ string multiplicar(string num1, string num2 ){
 	string p2 = multiplicar(num1_right, num2_right);
 	string p3 = multiplicar(mySum(num1_left, num1_right), mySum(num2_left, num2_right));
 
+	cout << "p1: " << p1 <<"\np2: "<< p2<<"\np3: "<< p3;
+
 	return "hola";
 }
 
@@ -124,8 +114,8 @@ int main(int argc, char **argv)
 		//get numero 2
 		cin >> num2;
 		cout << "\nayy lmaao\n" << num1 << "\n" << num2 << "\nayy lmaao\n";
-		cout << mySum(twoComp(num1), num2) << "\n";
-		//cout << multiplicar(num1, num2);
+		//cout << mySum(twoComp(num1), num2) << "\n";
+		cout << multiplicar(num1, num2);
 		cout << "\n";
 
 	}
