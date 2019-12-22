@@ -12,36 +12,37 @@ using namespace std;
 
 //lista
 string myAnd(string n1, string n2){
-	string buffer0 = "0";
-	string buffer1 = "1";
 
-	if(n1.compare("1") == 0 && n1.compare(n2) == 0){
-		return buffer1;
+	if(n1[0] == '1' && n1[0] == n2[0]){
+		return "1";
 	}
 
-	else return buffer0;
+	else return "0";
 }
 
 
 // lista
-void  eqLength(string &str1, string &str2){
+int  eqLength(string &str1, string &str2){
 
 	int len1 = str1.size();
 	int len2 = str2.size();
 
 	int overFlow = abs(len1 - len2);
+
 	if(len1 < len2){
 		for(int i = 0; i < overFlow; i++){
-			str1 = '0' + str1;
+			str1 = "0" + str1;
 		}
+		return len2;
 	}
 	else if (len2 < len1)
 	{
 		for (int i = 0; i < overFlow; i++)
 		{
-			str2 = '0' + str2;
+			str2 = "0" + str2;
 		}
 	}
+	return len1;
 }
 
 
@@ -75,6 +76,7 @@ string twoComp(string number){
 	return number;
 }
 
+
 //lista
 string shift(string num, int amt)
 {
@@ -82,25 +84,26 @@ string shift(string num, int amt)
 	int i;
 	for (i = 0; i < amt; i++)
 	{
-		buffer.append("0");
+		buffer = buffer +"0";
 	}
-	return num.append(buffer);
+	return num + buffer;
 }
 
 
-
+//lista
 
 string mySum(string num1, string num2, int substract){
 
 	string res = ""; 	// resultado
 	int sum = 0;	 	// bit suma
 
-	eqLength(num1, num2);
+	if(substract) num2 = "1" + num2;
 
-	int oSize = num1.size();
+	int oSize = eqLength(num1, num2);
 
 	// se empieza pro los bits del final
-	int i = num1.size() - 1, j = num2.size() - 1;
+	int i = oSize - 1;
+	int j = oSize - 1;
 
 	while (i >= 0 || j >= 0 || sum == 1)
 	{
@@ -120,80 +123,104 @@ string mySum(string num1, string num2, int substract){
 	}
 
 	if(substract){
-		return res.substr(1,res.size());
+		return res.substr(1, res.size());
 	}
-	return res;
+	else 
+		return res;
 }
 
+/*
+string mySum(string first, string second, int flag)
+{
+	string result; // To store the sum bits
+	// make the lengths same before adding
+	int length = eqLength(first, second);
+	int carry = 0; // Initialize carry
 
+	// Add all bits one by one
+	for (int i = length - 1; i >= 0; i--)
+	{
+		int firstBit = first.at(i) - '0';
+		int secondBit = second.at(i) - '0';
 
-string multiplicar(string num1, string num2 ){
+		// boolean expression for sum of 3 bits
+		int sum = (firstBit ^ secondBit ^ carry) + '0';
 
-	eqLength(num1, num2);
+		result = (char)sum + result;
 
-	int largo = num1.size();
-	
-	if (largo != 1){
-
-		int mid = largo / 2;
-
-		string num1_left, num1_right;
-		string num2_left, num2_right;
-
-		num1_left = num1.substr(0, mid);
-		num2_left = num2.substr(0, mid);
-
-		num1_right = num1.substr(mid, largo - mid);
-		num2_right = num2.substr(mid, largo - mid);
-
-		cout << "-----------------------------\n";
-		cout << "num1: " << num1 << "\t";
-		cout << "num2: " << num2 << "\n";
-		cout << "-----------------------------\n";
-
-		cout << "-----------------------------\n";
-		cout << "Xl: " << num1_left << "\t";
-		cout << "Xr: " << num1_right << "\n";
-		cout << "Yl: " << num2_left << "\t";
-		cout << "Yr: " << num2_right << "\n";
-		cout << "-----------------------------\n";
-
-		string p1 = multiplicar(num1_left, num2_left);
-		string p2 = multiplicar(num1_right, num2_right);
-		string p3 = multiplicar(mySum(num1_left, num1_right, 0), mySum(num2_left, num2_right, 0));
-
-		cout << "-----------------------------\n";
-		cout << "p1: " << p1 << "\n";
-		cout << "p2: " << p2 << "\n";
-		cout << "p3: " << p3 << "\n";
-		cout << "-----------------------------\n";
-
-		cout << "-----------------------------\n";
-		p3 = mySum(p3, twoComp(p1), 1);
-
-		cout << "comp p1: " << twoComp(p1) << "\t";
-		cout << "p3 - p1: " << p3 << "\n";
-		p3 = mySum(p3, twoComp(p2), 1);
-
-		cout << "comp p2: " << twoComp(p2) << "\t";
-		cout << "p3 - p2: " << p3 << "\n";
-		p3 = shift(p3, mid);
-		cout << "p3: " << p3 << "\n";
-		cout << "-----------------------------\n";
-
-		p1 = shift(p1, largo);
-		cout << "p1: " << p1 << "\t\t";
-		p1 = mySum(p1, p3, 0);
-		cout << "after sum p1: " << p1 << "\n";
-
-		cout << "-----------------------------\n";
-		p1 = mySum(p1, p2, 0);
-		cout << "res:\t" << p1 << "\n-----------------------------\n";
-
-		return p1;
+		// boolean expression for 3-bit addition
+		carry = (firstBit & secondBit) | (secondBit & carry) | (firstBit & carry);
 	}
 
-	return myAnd(num1,num2);
+	// if overflow, then add a leading 1
+	if (carry)
+		result = '1' + result;
+
+	return result;
+}
+*/
+
+
+string multiplicar(string num1, string num2){
+
+	int largo = eqLength(num1, num2);
+	
+	if (largo == 0) return "0";
+	else if (largo == 1) return myAnd(num1, num2);
+
+	int midIzq = largo / 2;
+	int midDer = largo - midIzq;
+	
+	string num1_left = num1.substr(0, midIzq);
+	string num1_right = num1.substr(midIzq, midDer);
+
+	string num2_left = num2.substr(0, midIzq);
+	string num2_right = num2.substr(midIzq, midDer);
+
+	cout << "-----------------------------\n";
+	cout << "num1: " << num1 << "\t";
+	cout << "num2: " << num2 << "\n";
+	cout << "Xl: " << num1_left << "\t";
+	cout << "Xr: " << num1_right << "\n";
+	cout << "Yl: " << num2_left << "\t";
+	cout << "Yr: " << num2_right << "\n";
+	cout << "-----------------------------\n";
+
+	string p1 = multiplicar(num1_left, num2_left); cout << "P1 = "<<p1<<"\n";
+	string p2 = multiplicar(num1_right, num2_right);
+	cout << "P2 = " << p2 << "\n";
+
+	string p3 = multiplicar(mySum(num1_left, num1_right, 0), mySum(num2_left, num2_right, 0));
+	cout << "P3 = "<<p3<<"\n";
+
+	//eqLength(p1,p2);
+	//eqLength(p2,p3);
+
+	
+	cout << "Before-----------------------------\n";
+	cout << "p1: " << p1 << "\n";
+	cout << "p2: " << p2 << "\n";
+	cout << "p3: " << p3 << "\n";
+	cout << "-----------------------------\n";
+
+	p3 = mySum(p3, twoComp(p1), 1);
+	cout << "p31 " << p3 << "\n";
+	p3 = mySum(p3, twoComp(p2), 1);
+	cout << "p32 " << p3 << "\n";
+	p3 = shift(p3, midIzq);
+	cout << "p33 " << p3 << "\n";
+
+	p1 = shift(p1, largo);
+
+	cout << "After-----------------------------\n";
+	cout << "p1: " << p1 << "\n";
+	cout << "p2: " << p2 << "\n";
+	cout << "p3: " << p3 << "\n";
+	cout << "-----------------------------\n";
+
+	string result = mySum(mySum(p1, p3, 0), p2, 0);
+	
+	return result;
 }
 
 
@@ -203,10 +230,10 @@ int main(int argc, char **argv)
 	int digits = 0;
 	string num1;
 	string num2;
-	//cout << multiplicar("10","10") << "\n";
-
+	cout << multiplicar("100","1") << "\n";
 	//leer cantidad de bits de multiplicacion
-	while (cin >> digits){
+	while (cin >> digits)
+	{
 
 		//get numero 1
 		cin >> num1;
