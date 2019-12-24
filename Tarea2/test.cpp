@@ -22,7 +22,7 @@ string myAnd(string n1, string n2){
 
 
 // lista
-int  eqLength(string &str1, string &str2){
+int  eqLength(string &str1, string &str2, int substract){
 
 	int len1 = str1.size();
 	int len2 = str2.size();
@@ -37,9 +37,18 @@ int  eqLength(string &str1, string &str2){
 	}
 	else if (len2 < len1)
 	{
-		for (int i = 0; i < overFlow; i++)
+		if(!substract){
+			for (int i = 0; i < overFlow; i++)
+			{
+				str2 = "0" + str2;
+			}
+		}
+		else
 		{
-			str2 = "0" + str2;
+			for (int i = 0; i < overFlow; i++)
+			{
+				str2 = "1" + str2;
+			}
 		}
 	}
 	return len1;
@@ -97,9 +106,7 @@ string mySum(string num1, string num2, int substract){
 	string res = ""; 	// resultado
 	int sum = 0;	 	// bit suma
 
-	if(substract) num2 = "1" + num2;
-
-	int oSize = eqLength(num1, num2);
+	int oSize = eqLength(num1, num2, substract);
 
 	// se empieza pro los bits del final
 	int i = oSize - 1;
@@ -160,17 +167,18 @@ string mySum(string first, string second, int flag)
 }
 */
 
+string testmult(string num1, string num2){
 
-string multiplicar(string num1, string num2){
+	int largo = eqLength(num1, num2, 0);
 
-	int largo = eqLength(num1, num2);
-	
-	if (largo == 0) return "0";
-	else if (largo == 1) return myAnd(num1, num2);
+	if (largo == 0)
+		return "0";
+	else if (largo == 1)
+		return myAnd(num1, num2);
 
 	int midIzq = largo / 2;
 	int midDer = largo - midIzq;
-	
+
 	string num1_left = num1.substr(0, midIzq);
 	string num1_right = num1.substr(midIzq, midDer);
 
@@ -186,11 +194,94 @@ string multiplicar(string num1, string num2){
 	cout << "Yr: " << num2_right << "\n";
 	cout << "-----------------------------\n";
 
+	string p1 = testmult(num1_left, num2_left);
+	cout << "P1 = " << p1 << "\n";
+	string p2 = testmult(num1_right, num2_right);
+	cout << "P2 = " << p2 << "\n";
+
+	string sum1 = mySum(num1_left, num1_right,0);
+	string sum2 = mySum(num2_left, num2_right,0);
+	string p3 = testmult(sum1,sum2);
+	cout << "P3 = " << p3 << "\n";
+
+	cout << "Before shift-----------------------------\n";
+	cout << "p1: " << p1 << "\n";
+	cout << "p2: " << p2 << "\n";
+	cout << "p3: " << p3 << "\n";
+	cout << "-----------------------------\n";
+
+	string sum3;
+	string p4 = twoComp(p1);
+	string p5 = twoComp(p2);
+
+	cout << "COMPLEMENT-----------------------------\n";
+	cout << "p1: " << p1 << "\t";
+	cout << "p4: " << p4 << "\n";
+	cout << "p2: " << p2 << "\t";
+	cout << "p5: " << p5 << "\n";
+	cout << "-----------------------------\n";
+
+	sum3 = mySum(p3, p4, 1);
+	cout << "p31 " << sum3 << "\n";
+	
+	sum3 = mySum(p3, p5, 1);
+	cout << "p32 " << sum3 << "\n";
+	
+	sum3 = shift(sum3, midIzq);
+	cout << "p33 " << sum3 << "\n";
+
+	p1 = shift(p1,largo);
+	/*
+	cout << "Sp1: " << p1 << "\n";
+	cout << "p2: " << p2 << "\n";
+	cout << "Sp3: " << sum3 << "\n";
+	*/
+
+	cout << "After shift-----------------------------\n";
+	cout << "p1: " << p1 << "\n";
+	cout << "p2: " << p2 << "\n";
+	cout << "p3: " << sum3 << "\n";
+	cout << "-----------------------------\n";
+
+	string res;
+	res = mySum(sum3,p2,0);
+	res = mySum(p1,res,0);
+
+	return res;
+}
+/*
+string multiplicar(string num1, string num2){
+
+	int largo = eqLength(num1, num2);
+	
+	if (largo == 0) return "0";
+	else if (largo == 1) return myAnd(num1, num2);
+
+	int midIzq = largo / 2;
+	int midDer = largo - midIzq;
+	
+	string num1_left = num1.substr(0, midIzq);
+	string num1_right = num1.substr(midIzq, midDer);
+
+	string num2_left = num2.substr(0, midIzq);
+	string num2_right = num2.substr(midIzq, midDer);
+	/*
+	cout << "-----------------------------\n";
+	cout << "num1: " << num1 << "\t";
+	cout << "num2: " << num2 << "\n";
+	cout << "Xl: " << num1_left << "\t";
+	cout << "Xr: " << num1_right << "\n";
+	cout << "Yl: " << num2_left << "\t";
+	cout << "Yr: " << num2_right << "\n";
+	cout << "-----------------------------\n";
+	/
 	string p1 = multiplicar(num1_left, num2_left); cout << "P1 = "<<p1<<"\n";
 	string p2 = multiplicar(num1_right, num2_right);
 	cout << "P2 = " << p2 << "\n";
-
-	string p3 = multiplicar(mySum(num1_left, num1_right, 0), mySum(num2_left, num2_right, 0));
+	string aux1 = mySum(num1_left, num1_right, 0);
+	string aux2 = mySum(num2_left, num2_right, 0);
+	int temp = eqLength(aux1, aux2);
+	string p3 = multiplicar(aux1, aux2);
 	cout << "P3 = "<<p3<<"\n";
 
 	//eqLength(p1,p2);
@@ -203,8 +294,10 @@ string multiplicar(string num1, string num2){
 	cout << "p3: " << p3 << "\n";
 	cout << "-----------------------------\n";
 
+	int oSize = eqLength(p3, p1);
 	p3 = mySum(p3, twoComp(p1), 1);
 	cout << "p31 " << p3 << "\n";
+	oSize = eqLength(p3, p2);
 	p3 = mySum(p3, twoComp(p2), 1);
 	cout << "p32 " << p3 << "\n";
 	p3 = shift(p3, midIzq);
@@ -222,6 +315,7 @@ string multiplicar(string num1, string num2){
 	
 	return result;
 }
+*/
 
 
 int main(int argc, char **argv)
@@ -230,7 +324,7 @@ int main(int argc, char **argv)
 	int digits = 0;
 	string num1;
 	string num2;
-	cout << multiplicar("100","1") << "\n";
+	cout << testmult("100","101") << "\n";
 	//leer cantidad de bits de multiplicacion
 	while (cin >> digits)
 	{
@@ -240,7 +334,7 @@ int main(int argc, char **argv)
 		//get numero 2
 		cin >> num2;
 		//cout << "\nayy lmaao\n" << num1 << "\n" << num2 << "\nayy lmaao\n";
-		cout << "res: "<< multiplicar(num1, num2);
+		cout << "res: "<< testmult(num1, num2);
 	
 		
 		cout << "\n";
