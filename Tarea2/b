@@ -1,0 +1,91 @@
+mul(101,010) 5 * 2 IMPOAR
+
+xl = 1  xr = 01
+yl = 0  yr = 10
+
+p1 = mul(1,0) = 0
+p2 = mul(01,10) / PAR
+    xl = 0  xr = 1
+    yl = 1  yr = 0
+    p1 = mul(0,1)= 0
+    p2 = mul(1,0) = 0
+    p3 (0 + 1) x (1 + 0)  = 1
+
+    Unir
+    Shift p1 = 000
+    p3 - p1 - p2 = 1 -> shuift = 10
+    p2 = 0
+    todo =  010 o 10
+p2 = 010
+
+p3 =mul(1 + 01, 0 + 10) = 10 * 10 PAR
+    xl = 1  xr = 0
+    yl = 1  yr = 0 
+    p1 = 1 * 1  = 1
+    p2 = 0 * 0 = 0
+    p3 = 1 * 1 = 1
+     
+    Unir
+    shift  p1 = 100
+    p3 - p2 - p1 = 0 -> shift = 00
+    p2 = 0
+    todo = 100
+p3 = 100
+
+Unir
+
+shift p1 = 0000
+p3-p2-p1 = 10 -> shift = 1000 /no sera 1000
+p2 = 010
+todo = 1010
+
+--------------------------------------------
+mul(100,101) 4 * 5 IMPOAR
+
+xl = 1  xr = 00
+yl = 1  yr = 01
+
+p1 = 1 * 1 = 1
+p2 = mul(00,01) / PAR
+    xl = 0  xr = 0
+    yl = 0  yr = 1
+    p1 = mul(0,0)= 0
+    p2 = mul(0,1) = 0
+    p3 (0 + 0) x (0 + 1)  = 0
+
+    Unir
+    Shift p1 = 000
+    p3 - p1 - p2 = 0 -> shuift = 00
+    p2 = 0
+    todo =  000
+p2 = 000
+
+p3 =mul(1 + 00, 1 + 01) = 01 * 10 
+    xl = 0  xr = 1
+    yl = 1  yr = 0 
+    p1 = 0 * 1  = 0
+    p2 = 1 * 0 = 0
+    p3 = 1 * 1 = 1
+     
+    Unir
+    shift  p1 = 000
+    p3 - p2 - p1 = 1 -> shift = 10
+    p2 = 0
+    todo = 010
+p3 = 010
+Unir
+
+shift p1 = 1000
+p3-p2-p1 =  01-> shift = 0100
+p2 = 0000
+todo = 1100 
+
+
+
+
+
+
+
+
+
+
