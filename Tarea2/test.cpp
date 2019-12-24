@@ -18,6 +18,7 @@ string shift(string num, int amt);
 string mySum(string num1, string num2, int flag);
 string multiplicar(string num1, string num2);
 
+
 //lista
 string myAnd(string n1, string n2)
 {
@@ -30,6 +31,7 @@ string myAnd(string n1, string n2)
 	else
 		return "0";
 }
+
 
 // lista
 int eqLength(string &str1, string &str2)
@@ -58,6 +60,7 @@ int eqLength(string &str1, string &str2)
 	return len1;
 }
 
+
 string resta(string num1, string num2, string num3)
 {
 
@@ -72,18 +75,10 @@ string resta(string num1, string num2, string num3)
 	p2 = "0" + num2;
 	p3 = "0" + num3;
 
-	cout << "0p1: " << p1 << "\n";
-	cout << "0p2: " << p2 << "\n";
-	cout << "0p3: " << p3 << "\n";
-
 	p1 = twoComp(p1);
 	p2 = twoComp(p2);
-	cout << "Cp1: " << p1 << "\n";
-	cout << "Cp2: " << p2 << "\n";
 
 	res = mySum(p3, p1, 0);
-	cout << "Rp3: " << p3 << "\n";
-	cout << "Rp1: " << p1 << "\n";
 
 	overFlow = largo - res.size();
 	overFlow = abs(overFlow);
@@ -92,12 +87,8 @@ string resta(string num1, string num2, string num3)
 	{
 		res = res.substr(overFlow, res.size());
 	}
-	cout << "res p3- p1: " << res << "\n";
 
 	int temp = eqLength(res, p2);
-
-	cout << "Rp3: " << res << "\n";
-	cout << "Rp2: " << p2 << "\n";
 
 	res = mySum(res, p2, 0);
 
@@ -105,11 +96,12 @@ string resta(string num1, string num2, string num3)
 	{
 		res = res.substr(overFlow, res.size());
 	}
-	cout << "res p3 - p2: " << res << "\n";
 
 	return res;
 }
 
+
+//lista
 string juntar(string num1, string num2, string num3)
 {
 	int largo;
@@ -119,19 +111,13 @@ string juntar(string num1, string num2, string num3)
 	largo = eqLength(num2, num3);
 	largo = eqLength(num3, num1);
 
-	cout << "Jp1: " << num1 << "\n";
-	cout << "Jp2: " << num2 << "\n";
-	cout << "Jp3: " << num3 << "\n";
-	cout << "JCp3: " << num3 << "\n";
-
 	res = mySum(num1, num2, 0);
 	largo = eqLength(res, num3);
 	res = mySum(res, num3, 0);
 
-	cout << "Jres: " << res << "\n";
-
 	return res;
 }
+
 
 //lista
 string twoComp(string number)
@@ -167,6 +153,7 @@ string twoComp(string number)
 	return number;
 }
 
+
 //lista
 string shift(string num, int amt)
 {
@@ -179,8 +166,8 @@ string shift(string num, int amt)
 	return num + buffer;
 }
 
-//lista
 
+//lista
 string mySum(string num1, string num2, int substract)
 {
 
@@ -212,6 +199,8 @@ string mySum(string num1, string num2, int substract)
 	return res;
 }
 
+
+//lista
 string multiplicar(string num1, string num2)
 {
 
@@ -231,25 +220,9 @@ string multiplicar(string num1, string num2)
 	string num2_left = num2.substr(0, midIzq);
 	string num2_right = num2.substr(midIzq, midDer);
 
-	cout << "-----------------------------\n";
-	cout << "num1: " << num1 << "\t";
-	cout << "num2: " << num2 << "\n";
-	cout << "Xl: " << num1_left << "\t";
-	cout << "Xr: " << num1_right << "\n";
-	cout << "Yl: " << num2_left << "\t";
-	cout << "Yr: " << num2_right << "\n";
-	cout << "-----------------------------\n";
-
 	string p1 = multiplicar(num1_left, num2_left);
-	cout << "-----------------------------\n";
-	cout << "P1 = " << p1 << "\n";
-	cout << "-----------------------------\n";
 
 	string p2 = multiplicar(num1_right, num2_right);
-
-	cout << "-----------------------------\n";
-	cout << "P2 = " << p2 << "\n";
-	cout << "-----------------------------\n";
 
 	int temp = eqLength(num1_left, num1_right);
 	string sum1 = mySum(num1_left, num1_right, 0);
@@ -259,14 +232,9 @@ string multiplicar(string num1, string num2)
 
 	string p3 = multiplicar(sum1, sum2);
 
-	cout << "-----------------------------\n";
-	cout << "P3 = " << p3 << "\n";
-	cout << "-----------------------------\n";
 
 	string subs = resta(p1, p2, p3);
-	cout << "-----------------------------\n";
-	cout << "subs: \t" << subs << "\n";
-	cout << "-----------------------------\n";
+
 
 	p1 = shift(p1, midDer * 2);
 
@@ -279,19 +247,6 @@ string multiplicar(string num1, string num2)
 	return res;
 }
 
-string removeZeros(string str)
-{
-	for (int i = 0; i < str.size(); i++)
-	{
-		if (str[0] == '0')
-		{
-			str = str.substr(i, str.size());
-		}
-		else if (str[1] == '1')
-			break;
-	}
-	return str;
-}
 
 int main(int argc, char **argv)
 {
@@ -299,8 +254,6 @@ int main(int argc, char **argv)
 	int digits = 0;
 	string num1;
 	string num2;
-	cout << multiplicar("101", "010") << "\n";
-	//cout << resta("010011","001011","111111") << "\n";
 	//leer cantidad de bits de multiplicacion
 	while (cin >> digits)
 	{
@@ -309,13 +262,10 @@ int main(int argc, char **argv)
 		cin >> num1;
 		//get numero 2
 		cin >> num2;
-		//cout << "\nayy lmaao\n" << num1 << "\n" << num2 << "\nayy lmaao\n";
-		cout << "res: " << multiplicar(num1, num2);
+		cout << multiplicar(num1, num2)<< "\n";
 
-		cout << "\n";
 	}
 
-	cout << "\n";
 
 	return 0;
 }
