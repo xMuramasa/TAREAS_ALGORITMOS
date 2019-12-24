@@ -7,6 +7,7 @@
 #include <string>
 #include <algorithm>
 using namespace std;
+#include <time.h>
 
 // header
 string myAnd(string n1, string n2);
@@ -16,11 +17,15 @@ string juntar(string num1, string num2, string num3);
 string twoComp(string number);
 string shift(string num, int amt);
 string mySum(string num1, string num2, int flag);
-string multiplicar(string num1, string num2);
+string multiplicar1(string num1, string num2);
+string multiplicar2(string x, string y, int n);
 
-
-//lista
-string myAnd(string n1, string n2)
+	/* string myAnd
+* accion  : multiplicacion de un bit
+* prints  : nada
+* returns : resultado de la multiplicacion
+*/
+	string myAnd(string n1, string n2)
 {
 
 	if (n1[0] == '1' && n1[0] == n2[0])
@@ -33,7 +38,29 @@ string myAnd(string n1, string n2)
 }
 
 
-// lista
+/* string myAnd2
+* accion  : multiplicacion de un bit, pero recibe char
+* prints  : nada
+* returns : resultado de la multiplicacion
+*/
+string myAnd2(char n1, char n2)
+{
+
+	if (n1 == '1' && n1 == n2)
+	{
+		return "1";
+	}
+
+	else
+		return "0";
+}
+
+
+/* int eqLength
+* accion  : cambia el largo de dos strings para que sean iguales
+* prints  : nada
+* returns : el tamano final
+*/
 int eqLength(string &str1, string &str2)
 {
 
@@ -61,6 +88,11 @@ int eqLength(string &str1, string &str2)
 }
 
 
+/* string resta
+* accion  : hace el calculo de la resta en el algoritmo de multiplicacion
+* prints  : nada
+* returns : la resta de p1 - p2 - p3
+*/
 string resta(string num1, string num2, string num3)
 {
 
@@ -101,7 +133,11 @@ string resta(string num1, string num2, string num3)
 }
 
 
-//lista
+/* string juntar
+* accion  : hace el calculo final del algoritmo de multiplicacion
+* prints  : nada
+* returns : la suma de p1, p2, p3
+*/
 string juntar(string num1, string num2, string num3)
 {
 	int largo;
@@ -119,7 +155,11 @@ string juntar(string num1, string num2, string num3)
 }
 
 
-//lista
+/* string twoComp
+* accion  : hacel el 2 complemento de un numero binario
+* prints  : nada
+* returns : el numero complementado 
+*/
 string twoComp(string number)
 {
 	int flag = 0;
@@ -154,7 +194,11 @@ string twoComp(string number)
 }
 
 
-//lista
+/* string shift
+* accion  : hace un logical left shift de un numero bin representado como string
+* prints  : nada
+* returns : el numero shifteado
+*/
 string shift(string num, int amt)
 {
 	string buffer = "";
@@ -167,7 +211,11 @@ string shift(string num, int amt)
 }
 
 
-//lista
+/* string mmySum
+* accion  : suma dos numeros bin representados como strings
+* prints  : nada
+* returns : suma de los numeros
+*/
 string mySum(string num1, string num2, int substract)
 {
 
@@ -200,10 +248,15 @@ string mySum(string num1, string num2, int substract)
 }
 
 
-//lista
-string multiplicar(string num1, string num2)
+/* string multiplicar
+* accion  : multiplica dos numeros bin representados como strings
+* prints  : nada
+* returns : multiplicacion de los dos strings 
+*/
+string multiplicar1(string num1, string num2)
 {
 
+	// se igualan los largos de los numeros para facilidad de calculos
 	int largo = eqLength(num1, num2);
 
 	if (largo == 0)
@@ -220,9 +273,9 @@ string multiplicar(string num1, string num2)
 	string num2_left = num2.substr(0, midIzq);
 	string num2_right = num2.substr(midIzq, midDer);
 
-	string p1 = multiplicar(num1_left, num2_left);
+	string p1 = multiplicar1(num1_left, num2_left);
 
-	string p2 = multiplicar(num1_right, num2_right);
+	string p2 = multiplicar1(num1_right, num2_right);
 
 	int temp = eqLength(num1_left, num1_right);
 	string sum1 = mySum(num1_left, num1_right, 0);
@@ -230,7 +283,7 @@ string multiplicar(string num1, string num2)
 	temp = eqLength(num2_left, num2_right);
 	string sum2 = mySum(num2_left, num2_right, 0);
 
-	string p3 = multiplicar(sum1, sum2);
+	string p3 = multiplicar1(sum1, sum2);
 
 
 	string subs = resta(p1, p2, p3);
@@ -248,6 +301,37 @@ string multiplicar(string num1, string num2)
 }
 
 
+/* string multiplicar2
+* accion  : multiplica dos numeros bin representados como strings fuerza bruta
+* prints  : nada
+* returns : multiplicacion de los dos strings 
+*/
+string multiplicar2(string x, string y, int n)
+{
+
+	string result = "0";
+	string temp = "";
+	int cont = 0;
+
+	for (int i = n - 1; i > -1; i--)
+	{
+		for (int j = n - 1; j > -1; j--)
+		{
+			temp = myAnd2(x[i], y[j]) + temp;
+		}
+
+		temp = shift(temp, cont);
+		result = mySum(result, temp, 0);
+
+		cont++;
+		temp = "";
+	}
+
+	return result;
+}
+
+
+
 int main(int argc, char **argv)
 {
 	//bits de los numeros
@@ -257,13 +341,20 @@ int main(int argc, char **argv)
 	//leer cantidad de bits de multiplicacion
 	while (cin >> digits)
 	{
-
 		//get numero 1
 		cin >> num1;
 		//get numero 2
 		cin >> num2;
-		cout << multiplicar(num1, num2)<< "\n";
+		//tiempo
+		clock_t tStart = clock();
 
+		//cout << multiplicar1(num1, num2) << "\n";
+		//multiplicar1(num1, num2);
+
+		//cout << multiplicar2(num1, num2, digits) << "\n";
+		multiplicar2(num1, num2, digits);
+
+		printf("Time taken: %.2fs\n", (double)(clock() - tStart) / CLOCKS_PER_SEC);
 	}
 
 
