@@ -4,6 +4,13 @@
 #include <sstream>
 using namespace std;
 
+
+/* int search
+* accion  : Busqueda de nodo en la posicion, luego realiza busqueda inversa hasta 
+			encontrar el menor valor de los mayores disponibles
+* prints  : nada
+* returns : Posicion en el valor encontrado en vector Preorder
+*/
 int search(string tree, vector<int> Preorder, int floor, int value){
 
 	int i,k;
@@ -74,12 +81,7 @@ int main(){
 		
 		// Get cantidad de queries
 		cin >> Q;
-/*
-		cout << "Nodes: " << nodeQuantity << "\nTree: " << tree << "\nPreorder: ";
-		for(auto x: Preorder){
-			cout << x << " ";
-		}
-		*/
+		
 		cout << Q << "\n"; 
 		// get numeros para cada consulta
 		for (int i = 0; i < Q; i++)
