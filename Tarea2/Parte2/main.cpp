@@ -4,17 +4,42 @@
 #include <sstream>
 using namespace std;
 
-typedef struct node
-{
-	int value;
-	vector<node *> childs;
-} node;
+int search(string tree, vector<int> Preorder, int floor, int value){
+
+	int i,k;
+	int parIzq = 0;
+	int ret;
+
+	for(i = 0; parIzq < floor + 1; i++){
+		if (tree[i] == '('){
+			parIzq++;
+		} 
+	}
+	
+	ret = parIzq-1;
+
+	for(k = i-1; -1 < k; k--){
+		if(tree[k] == ')'){
+			k--;
+			parIzq--;
+		}
+		else if (tree[k]=='('){
+			if (Preorder[parIzq-1] >= value){
+				ret = parIzq - 1;
+				parIzq--;
+			}
+		}
+	}
+	return ret;
+}
 
 
 int main(){
 
 	// parentesis del arbol
 	string tree;
+
+	string bufferParentesis;
 	
 	//recorrido preorder
 	string preOrder;
@@ -54,13 +79,13 @@ int main(){
 			cout << x << " ";
 		}
 		
-		cout << "\nQ: " << Q << "\n"; 
+		cout << "\n" << Q << "\n"; 
 
 		// get numeros para cada consulta
 		while (cin >> Q1){
 			cin >> Q2;
-			cout << "Q1: " << Q1 << "\tQ2: " << Q2;
-			puts("HACER TAREA");
+			cout << search(tree, Preorder, Q1, Q2);
+			puts("");
 		}
 		
 	}
