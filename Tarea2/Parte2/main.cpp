@@ -11,25 +11,55 @@ using namespace std;
 
 
 int main(){
+
+	// parentesis del arbol
 	string tree;
-	string Preorder;
+	
+	//recorrido preorder
+	string preOrder;
+	vector<int> Preorder;
+	int buffer;
+	
+	// cantidad de nodos del arbol
 	int nodeQuantity;
+	
+	// cantidad de queries y numeros para ellas
 	int Q;
 	int Q1, Q2;
+	
 	while (cin >> nodeQuantity)
 	{
+		// get de los parentesis
 		cin >> tree;
-		cin.ignore(256, '\n');
-		getline(cin, Preorder);
+		cin.ignore(256, '\n'); // se ignora el slto de linea
+
+		// se toma la linea de preorder como string para almacenarla en un vector de enteros
+		// con esto se cubre la posicion de preorden y el almacenamiento de numero
+		// por mientras 
+		// TODO
+		getline(cin, preOrder);
+
+		istringstream iss (preOrder);
+		while (iss >> buffer)
+		{
+			Preorder.push_back(buffer);
+		}
+		
+		// Get cantidad de queries
 		cin >> Q;
 
 		cout << "Nodes: " << nodeQuantity << "\nTree: " << tree << "\nPreorder: ";
-		cout << Preorder << "\nQ: " << Q << "\n"; 
-
+		for(auto x: Preorder){
+			cout << x << " ";
+		}
 		
+		cout << "\nQ: " << Q << "\n"; 
+
+
 		while (cin >> Q1){
 			cin >> Q2;
-			// Do Tarea
+			cout << "Q1: " << Q1 << "\tQ2: " << Q2;
+			puts("");
 		}
 		
 	}
