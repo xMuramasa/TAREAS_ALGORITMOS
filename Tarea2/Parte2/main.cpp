@@ -55,7 +55,7 @@ int main(){
 		
 		cout << "\nQ: " << Q << "\n"; 
 
-
+		// get numeros para cada consulta
 		while (cin >> Q1){
 			cin >> Q2;
 			cout << "Q1: " << Q1 << "\tQ2: " << Q2;
