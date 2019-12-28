@@ -59,7 +59,7 @@ int main(){
 		while (cin >> Q1){
 			cin >> Q2;
 			cout << "Q1: " << Q1 << "\tQ2: " << Q2;
-			puts("");
+			puts("HACER TAREA");
 		}
 		
 	}
