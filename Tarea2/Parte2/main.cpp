@@ -28,6 +28,7 @@ int search(string tree, vector<int> Preorder, int floor, int value){
 				ret = parIzq - 1;
 				parIzq--;
 			}
+			else return ret;
 		}
 	}
 	return ret;
@@ -73,21 +74,21 @@ int main(){
 		
 		// Get cantidad de queries
 		cin >> Q;
-
+/*
 		cout << "Nodes: " << nodeQuantity << "\nTree: " << tree << "\nPreorder: ";
 		for(auto x: Preorder){
 			cout << x << " ";
 		}
-		
-		cout << "\n" << Q << "\n"; 
-
+		*/
+		cout << Q << "\n"; 
 		// get numeros para cada consulta
-		while (cin >> Q1){
+		for (int i = 0; i < Q; i++)
+		{
+			cin >> Q1;
 			cin >> Q2;
-			cout << search(tree, Preorder, Q1, Q2);
-			puts("");
+			cout << search(tree, Preorder, Q1, Q2) << "\n";
 		}
-		
+		Preorder.clear();
 	}
 	return 0;
 
