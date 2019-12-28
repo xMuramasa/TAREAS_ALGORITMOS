@@ -1,13 +1,14 @@
-#include <map>
 #include <iostream>
-#include <cassert>
-#include <iterator>
 #include <vector>
-#include <bits/stdc++.h>
 #include <string>
-#include <algorithm>
+#include <sstream>
 using namespace std;
-#include <time.h>
+
+typedef struct node
+{
+	int value;
+	vector<node *> childs;
+} node;
 
 
 int main(){
