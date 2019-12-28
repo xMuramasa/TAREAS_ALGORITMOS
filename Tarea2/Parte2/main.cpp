@@ -15,6 +15,7 @@ int main(){
 	string Preorder;
 	int nodeQuantity;
 	int Q;
+	int Q1, Q2;
 	while (cin >> nodeQuantity)
 	{
 		cin >> tree;
@@ -24,7 +25,13 @@ int main(){
 
 		cout << "Nodes: " << nodeQuantity << "\nTree: " << tree << "\nPreorder: ";
 		cout << Preorder << "\nQ: " << Q << "\n"; 
-		break;
+
+		
+		while (cin >> Q1){
+			cin >> Q2;
+			// Do Tarea
+		}
+		
 	}
 	return 0;
 
