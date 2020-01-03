@@ -1,0 +1,12 @@
+./out
+Time taken: 0.08s
+Time taken: 0.34s
+Time taken: 1.88s
+Time taken: 4.53s
+Time taken: 9.16s
+Time taken: 15.28s
+Time taken: 24.05s
+Time taken: 35.83s
+Time taken: 50.88s
+Time taken: 70.69s
+Time taken: 91.42s

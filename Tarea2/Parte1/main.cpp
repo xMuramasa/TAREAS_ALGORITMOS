@@ -348,14 +348,14 @@ int main(int argc, char **argv)
 		//tiempo
 		clock_t tStart = clock();
 
-		cout << multiplicar1(num1, num2) << "\n";
-		//multiplicar1(num1, num2);
+		//cout << multiplicar1(num1, num2) << "\n";
+		multiplicar1(num1, num2);
 
 		//cout << multiplicar2(num1, num2, digits) << "\n";
 		//multiplicar2(num1, num2, digits);
 
 		// Esta linea indica el tiempo que demora en ejecutarse
-		//printf("Time taken: %.2fs\n", (double)(clock() - tStart) / CLOCKS_PER_SEC);
+		printf("Time taken: %.2fs\n", (double)(clock() - tStart) / CLOCKS_PER_SEC);
 	}
 
 
