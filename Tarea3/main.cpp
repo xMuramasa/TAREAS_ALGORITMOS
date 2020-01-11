@@ -78,12 +78,12 @@ int main(int argc, char **argv)
 	cout << "\n\nDESPUES\n";
 */
 	for (i = 0; i < rowCount; i++, diff++)
-
 	{
 
 		// se recorre el vector de horarios disponibles
 		for (auto x : horarios)
 		{
+			flag2 = 1;
 
 			if (diff == (x.second - x.first))
 			{
